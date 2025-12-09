@@ -8,8 +8,8 @@ December 8, 2024
 
 ## IPFire Versions Verified
 
-### Latest Stable Release
-- **IPFire 2.29 - Core Update 190** (Released December 19, 2024)
+### Latest Stable Release (as of December 2024)
+- **IPFire 2.29 - Core Update 190**
 - Linux Kernel: 6.6.63
 - U-Boot: 2024.10
 - Download: https://www.ipfire.org/downloads/ipfire-2.29-core190
@@ -24,7 +24,7 @@ December 8, 2024
 **File**: `resource/image-p1.yml`
 
 The boot.cmd modification correctly handles both `bootz` and `booti` boot commands for Raspberry Pi 4B:
-```yaml
+```bash
 if test "${board_name}" = "4 Model B"; then
     bootz ${kernel_addr_r} ${ramdisk_addr} ${fdt_addr_r};
     booti ${kernel_addr_r} ${ramdisk_addr} ${fdt_addr};
@@ -188,7 +188,7 @@ No compatibility issues have been identified between FireMyPi v1.7 and IPFire 2.
 ### Version History
 - Core Update 186: Earlier stable version, fully compatible
 - Core Update 189: Included journaling changes
-- Core Update 190: Current stable (December 19, 2024)
+- Core Update 190: Current stable (as of December 2024)
 - Core Update 194: Linux kernel 6.12.23, libidn2, post-quantum crypto
 - Core Update 199: Testing (WiFi 7 support)
 
