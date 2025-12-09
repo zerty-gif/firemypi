@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main, master]
 
+permissions:
+  contents: read
+
 jobs:
   shellcheck:
     name: ShellCheck
@@ -32,6 +35,9 @@ jobs:
         run: pip install yamllint
 
       - name: Run yamllint on config files
+        # Note: continue-on-error is set to true because existing YAML files
+        # may not fully comply with yamllint rules. This provides warnings
+        # without blocking PRs while the codebase transitions to stricter linting.
         run: |
           yamllint -d "{extends: relaxed, rules: {line-length: disable, truthy: disable}}" config/ resource/*.yml
         continue-on-error: true

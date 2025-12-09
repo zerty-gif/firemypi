@@ -23,7 +23,7 @@ We take security seriously. If you discover a security vulnerability in FireMyPi
 ### How to Report
 
 1. **Do NOT open a public GitHub issue** for security vulnerabilities
-2. Instead, please email the maintainers directly or use GitHub's private vulnerability reporting feature
+2. Use [GitHub's private vulnerability reporting](https://github.com/zerty-gif/firemypi/security/advisories/new) to submit security issues confidentially
 3. Include as much detail as possible:
    - Description of the vulnerability
    - Steps to reproduce
