@@ -1,0 +1,38 @@
+# License acceptance marker
+license.accepted
+
+# Build artifacts
+deploy/*/target/
+deploy/*/*.tgz
+deploy/*/*.img
+
+# Portable builds
+portable/*/*.img
+
+# Secrets (should never be committed)
+secrets/*.yml
+secrets/*.secret
+secrets/*.p12
+
+# Editor and IDE files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.sublime-*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.bak
+
+# Core images (large binary files)
+image/*.img
+image/*.xz
+core-image-to-use.yml
