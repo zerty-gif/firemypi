@@ -60,6 +60,9 @@ The *config* portion of the build creates an overlay that will be extracted onto
 
 The *image* creation writes the *config* to an IPFire core image and installs the hooks necessary to run the configuration script.  When the *image* creation is complete, the result is a pre-configured image that can be written to a micro sd card and booted on the Raspberry Pi.
 
+## IPFire Compatibility
+FireMyPi v1.7 is compatible with IPFire 2.29 Core Update 186 and later versions, including Core Updates 190, 194, and beyond. The configuration system is designed to work with the latest stable releases of IPFire for Raspberry Pi (aarch64/ARM64).
+
 ## Documentation
 Refer to the [FireMyPi Administrator's Guide](doc/fmp-admin-guide.html) for complete instructions and guidance.
 
