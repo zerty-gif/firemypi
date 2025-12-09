@@ -1,5 +1,7 @@
 # Welcome to FireMyPi!
 
+[![Lint](https://github.com/zerty-gif/firemypi/actions/workflows/lint.yml/badge.svg)](https://github.com/zerty-gif/firemypi/actions/workflows/lint.yml)
+
 ## Overview
 [FireMyPi](https://github.com/FireMyPi) is a configuration tool designed to help you to configure and install the [IPFire](https://www.ipfire.org) firewall for your home network on a Raspberry Pi.  It allows you to create a micro sd card installation of IPFire that will boot up and run on your Raspberry Pi "out of the box".
 
@@ -45,6 +47,149 @@ FireMyPi was designed with the ability to configure and connect multiple separat
 - Create a small portable build that can be transferred to
   a remote node location.
 
+
+## Quickstart
+
+### Prerequisites
+
+Install the required dependencies:
+
+**On Debian/Ubuntu:**
+```bash
+sudo apt update
+sudo apt install ansible apache2-utils openssl pwgen u-boot-tools
+```
+
+**On macOS:**
+```bash
+brew install ansible pwgen u-boot-tools
+```
+
+### Quick Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/zerty-gif/firemypi.git
+   cd firemypi
+   ```
+
+2. **Accept the license:**
+   ```bash
+   ./accept-license.sh
+   ```
+
+3. **Create node configuration:**
+   ```bash
+   ./mk-node-config.sh --node 1
+   ```
+
+4. **Create secrets (passwords):**
+   ```bash
+   ./mk-root-secret.sh --node 1
+   ./mk-webadmin-secret.sh --node 1
+   ```
+
+5. **Verify the build environment:**
+   ```bash
+   ./show-build-environment.sh --node 1
+   ```
+
+6. **Build a test configuration:**
+   ```bash
+   ./build-firemypi.sh --node 1 --test
+   ```
+
+7. **Build a production image:**
+   ```bash
+   ./build-firemypi.sh --node 1 --prod --image
+   ```
+
+8. **Write the image to a micro SD card** using `rpi-imager` or similar tool.
+
+For detailed configuration options, see the [Configuration](#configuration) section below or refer to the [Administrator's Guide](doc/fmp-admin-guide.html).
+
+## Configuration
+
+### System Configuration (`config/system_vars.yml`)
+
+Key configuration options:
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `prefix` | Hostname prefix for all firewalls | `"firemypi"` |
+| `timezone` | System timezone | `"US/Mountain"` |
+| `language` | System language | `"en"` |
+| `domain` | Public domain name | `"localdomain"` |
+| `green_host` | Production IP host number | `254` |
+| `green_testhost` | Test IP host number | `245` |
+
+### Optional Features
+
+Enable these in `config/system_vars.yml`:
+
+| Feature | Variable | Description |
+|---------|----------|-------------|
+| Dynamic DNS | `include_ddns` | Update DNS records automatically |
+| DHCP Fixed Leases | `include_dhcp_fixleases` | Static IP assignments |
+| IP Blocklist | `include_ipblocklist` | Block known bad IP addresses |
+| Location Blocking | `include_locationblock` | Block traffic by country |
+| OpenVPN | `include_ovpn` | Remote access VPN |
+| IPsec VPN | `include_vpn` | Site-to-site VPN tunnels |
+| Fireinfo | `include_fireinfo` | Send anonymous usage data to IPFire |
+
+### Node Configuration (`config/nodeN_vars.yml`)
+
+Each firewall node has its own configuration file with settings specific to that node:
+
+- `wireless_red0` - Use wireless interface for WAN connection
+- `fixleases_mode` - DHCP fixed lease configuration mode
+- `hosts_mode` - Local DNS hostname configuration mode
+
+### Secrets Directory
+
+The `secrets/` directory contains sensitive configuration files:
+
+| File | Created By | Purpose |
+|------|------------|---------|
+| `root_secrets.yml` | `mk-root-secret.sh` | Root password |
+| `webadmin_secrets.yml` | `mk-webadmin-secret.sh` | Web GUI admin password |
+| `ddns_secret.yml` | `mk-ddns-secret.sh` | Dynamic DNS credentials |
+| `vpnpsk_secrets.yml` | `mk-vpnpsk-secret.sh` | VPN pre-shared key |
+| `wireless_secrets.yml` | `mk-wireless-secret.sh` | WiFi credentials |
+
+> **Important:** Never commit secrets to version control!
+
+## Common Issues
+
+### Build fails with "something is missing in the configuration"
+
+Run `./show-build-environment.sh --node N` to identify missing configuration files or secrets.
+
+### "Wrong directory" error
+
+Ensure you are running scripts from the FireMyPi root directory.
+
+### Image creation requires sudo password
+
+This is expected - creating disk images requires root privileges for mounting.
+
+### USB Ethernet dongle not detected
+
+Verify your dongle uses one of the supported drivers (see [Hardware Compatibility](#hardware-compatibility)).
+
+## Hardware Compatibility
+
+### Supported Raspberry Pi Models
+- Raspberry Pi 3 (all variants)
+- Raspberry Pi 4 Model B (all revisions)
+- Raspberry Pi 400
+
+### Supported USB Ethernet Dongles
+- TP-Link USB 3.0 Gigabit (RTL8153)
+- Anker USB 3.0 Gigabit (CDC NCM)
+- UGREEN USB 3.0 Gigabit (AX88179)
+- Generic ASIX-based dongles (AX88179/AX88178a)
+- StarTech USB 3.0 dongles
 
 ## How FireMyPi Works
 
