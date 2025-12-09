@@ -70,8 +70,10 @@ case $1 in
 		exit 0
 		;;
 	--allnodes)
-		for DIR in `ls deploy`
+		for DIR in deploy/*/
 		do
+			[[ -d "$DIR" ]] || continue
+			DIR="$(basename "$DIR")"
 			NODE="${DIR//${PREFIX}}"
 			rm -f deploy/${PREFIX}${NODE}/*.tgz
 			rm -f deploy/${PREFIX}${NODE}/*.img
@@ -120,8 +122,10 @@ case $1 in
 			echo -e "\nCancelled.\n"
 			exit 1
 		fi
-		for DIR in `ls deploy`
+		for DIR in deploy/*/
 		do
+			[[ -d "$DIR" ]] || continue
+			DIR="$(basename "$DIR")"
 			NODE="${DIR//${PREFIX}}"
 			rm -f deploy/${PREFIX}${NODE}/*.tgz
 			rm -f deploy/${PREFIX}${NODE}/*.img
